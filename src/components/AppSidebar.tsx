@@ -50,9 +50,9 @@ const AppSidebar = () => {
   ];
 
   return (
-    <Sidebar defaultCollapsed={false} className="border-r border-border transition-all duration-300">
+    <Sidebar className="border-r border-border transition-all duration-300">
       <SidebarHeader className="flex h-16 items-center border-b border-border px-4">
-        <SidebarTrigger asChild>
+        <SidebarTrigger>
           <Button variant="ghost" size="icon" className="mr-2">
             <Menu className="h-5 w-5" />
           </Button>
