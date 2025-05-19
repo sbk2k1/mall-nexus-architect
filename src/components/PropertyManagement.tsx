@@ -1,169 +1,295 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Building, MapPin, Users, Clock, ArrowRight } from 'lucide-react';
+import DashboardHeader from './DashboardHeader';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Building, MapPin, Check, X, Clock, TrendingUp } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
-type Property = {
-  id: number;
-  name: string;
-  location: string;
-  tenants: number;
-  area: string;
-  lastMaintenance: string;
-  image: string;
+const PropertiesList = () => {
+  const properties = [
+    {
+      id: 1,
+      name: "Westfield Shopping Center",
+      location: "San Francisco, CA",
+      size: "1.2M sq ft",
+      tenants: 120,
+      occupancy: 95,
+      maintenance: 8,
+      revenueGrowth: 12.5
+    },
+    {
+      id: 2,
+      name: "Highland Mall",
+      location: "Seattle, WA",
+      size: "850K sq ft",
+      tenants: 98,
+      occupancy: 87,
+      maintenance: 12,
+      revenueGrowth: 5.2
+    },
+    {
+      id: 3,
+      name: "Riverside Galleria",
+      location: "Austin, TX",
+      size: "1.5M sq ft",
+      tenants: 145,
+      occupancy: 98,
+      maintenance: 5,
+      revenueGrowth: 18.7
+    },
+    {
+      id: 4,
+      name: "East Point Center",
+      location: "Chicago, IL",
+      size: "780K sq ft",
+      tenants: 82,
+      occupancy: 91,
+      maintenance: 14,
+      revenueGrowth: -2.1
+    },
+    {
+      id: 5,
+      name: "Metropolitan Plaza",
+      location: "New York, NY",
+      size: "2.1M sq ft",
+      tenants: 210,
+      occupancy: 96,
+      maintenance: 9,
+      revenueGrowth: 9.8
+    }
+  ];
+
+  return (
+    <div className="space-y-6">
+      {properties.map((property) => (
+        <Card key={property.id} className="hover-scale transition-all duration-300">
+          <CardContent className="p-6">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+              <div className="space-y-2 mb-4 lg:mb-0">
+                <div className="flex items-center gap-2">
+                  <Building className="h-5 w-5 text-primary" />
+                  <h3 className="text-xl font-bold">{property.name}</h3>
+                </div>
+                <div className="flex items-center text-muted-foreground">
+                  <MapPin className="h-4 w-4 mr-1" />
+                  <span className="text-sm">{property.location}</span>
+                </div>
+                <p className="text-sm text-muted-foreground">Size: {property.size} • {property.tenants} Tenants</p>
+              </div>
+              
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Occupancy</p>
+                  <div className="flex items-end gap-1.5">
+                    <span className="text-lg font-bold">{property.occupancy}%</span>
+                    <Progress value={property.occupancy} className="h-2 w-20" />
+                  </div>
+                </div>
+                
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Maintenance</p>
+                  <div className="flex items-center gap-1">
+                    <Clock className="h-4 w-4 text-amber-400" />
+                    <span className="text-lg font-bold">{property.maintenance}</span>
+                    <span className="text-xs text-muted-foreground">open</span>
+                  </div>
+                </div>
+                
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Revenue Growth</p>
+                  <div className="flex items-center gap-1">
+                    <TrendingUp className={`h-4 w-4 ${property.revenueGrowth >= 0 ? 'text-green-500' : 'text-red-500'}`} />
+                    <span className={`text-lg font-bold ${property.revenueGrowth >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                      {property.revenueGrowth}%
+                    </span>
+                  </div>
+                </div>
+              </div>
+              
+              <Button className="mt-4 lg:mt-0">View Details</Button>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
 };
 
-const properties: Property[] = [
-  {
-    id: 1,
-    name: "Central City Mall",
-    location: "Downtown, Metro City",
-    tenants: 85,
-    area: "120,000 sq ft",
-    lastMaintenance: "15 days ago",
-    image: "https://images.unsplash.com/photo-1519567438786-d9aec96d8ff4?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bWFsbHxlbnwwfHwwfHx8MA%3D%3D"
-  },
-  {
-    id: 2,
-    name: "Riverside Shopping Center",
-    location: "Riverside, Metro City",
-    tenants: 56,
-    area: "95,000 sq ft",
-    lastMaintenance: "7 days ago",
-    image: "https://images.unsplash.com/photo-1555529771-7888783a18d3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bWFsbHxlbnwwfHwwfHx8MA%3D%3D"
-  },
-  {
-    id: 3,
-    name: "Westside Plaza",
-    location: "West District, Metro City",
-    tenants: 42,
-    area: "78,000 sq ft",
-    lastMaintenance: "22 days ago",
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fG1hbGx8ZW58MHx8MHx8fDA%3D"
-  },
-  {
-    id: 4,
-    name: "Harbor Market",
-    location: "Harbor District, Metro City",
-    tenants: 38,
-    area: "65,000 sq ft",
-    lastMaintenance: "12 days ago",
-    image: "https://images.unsplash.com/photo-1581360742512-021d5b2157d7?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8bWFsbHxlbnwwfHwwfHx8MA%3D%3D"
-  },
-  {
-    id: 5,
-    name: "Northgate Galleria",
-    location: "North District, Metro City",
-    tenants: 63,
-    area: "110,000 sq ft",
-    lastMaintenance: "5 days ago",
-    image: "https://images.unsplash.com/photo-1567449303078-57ad995bd17a?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fG1hbGx8ZW58MHx8MHx8fDA%3D"
-  }
-];
+const MaintenanceList = () => {
+  const maintenanceItems = [
+    { id: 1, property: "Westfield Shopping Center", issue: "HVAC System Failure - Food Court", status: "urgent", reportedBy: "Tenant Manager", createdAt: "2025-05-18" },
+    { id: 2, property: "Highland Mall", issue: "Water Leak in Restroom B12", status: "in-progress", reportedBy: "Security Staff", createdAt: "2025-05-17" },
+    { id: 3, property: "Riverside Galleria", issue: "Broken Escalator Level 2->3", status: "scheduled", reportedBy: "Mall Manager", createdAt: "2025-05-15" },
+    { id: 4, property: "East Point Center", issue: "Parking Garage Gate Malfunction", status: "completed", reportedBy: "Customer Service", createdAt: "2025-05-10" },
+    { id: 5, property: "Metropolitan Plaza", issue: "Lighting Issues in Main Atrium", status: "in-progress", reportedBy: "Operations Team", createdAt: "2025-05-12" }
+  ];
+
+  const getStatusIcon = (status: string) => {
+    switch(status) {
+      case 'completed': return <Check className="h-4 w-4 text-green-500" />;
+      case 'urgent': return <X className="h-4 w-4 text-red-500" />;
+      case 'in-progress': return <Clock className="h-4 w-4 text-amber-400" />;
+      default: return <Clock className="h-4 w-4 text-blue-500" />;
+    }
+  };
+
+  const getStatusClass = (status: string) => {
+    switch(status) {
+      case 'completed': return 'bg-green-900/30 text-green-400';
+      case 'urgent': return 'bg-red-900/30 text-red-400';
+      case 'in-progress': return 'bg-amber-900/30 text-amber-400';
+      case 'scheduled': return 'bg-blue-900/30 text-blue-400';
+      default: return 'bg-gray-900/30 text-gray-400';
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      {maintenanceItems.map((item) => (
+        <Card key={item.id} className="hover-scale transition-all duration-300">
+          <CardContent className="p-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div className="space-y-2 mb-4 md:mb-0">
+                <div className="flex items-center gap-2">
+                  <Building className="h-5 w-5 text-primary" />
+                  <h3 className="font-bold">{item.property}</h3>
+                </div>
+                <p className="text-sm">{item.issue}</p>
+                <p className="text-xs text-muted-foreground">Reported by: {item.reportedBy} • {item.createdAt}</p>
+              </div>
+              
+              <div className="flex items-center gap-4">
+                <div className={`px-3 py-1 rounded-full flex items-center gap-1 ${getStatusClass(item.status)}`}>
+                  {getStatusIcon(item.status)}
+                  <span className="capitalize text-xs font-medium">{item.status}</span>
+                </div>
+                
+                <Button variant="outline" size="sm">View</Button>
+                <Button size="sm">Update</Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+};
 
 const PropertyManagement = () => {
   return (
     <div className="flex flex-col h-full">
-      <div className="p-6 border-b border-border animate-fade-in">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Property Management</h1>
-          <Button>Add New Property</Button>
-        </div>
-      </div>
-      <div className="flex-1 p-6 overflow-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-          <Card className="bg-gradient-to-br from-primary/20 to-primary/5 border-primary/20 animate-scale-in">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-xl">Properties Overview</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col items-center p-3 bg-black/20 rounded-lg">
-                  <Building className="h-6 w-6 text-primary mb-2" />
-                  <p className="text-sm text-muted-foreground">Total</p>
-                  <p className="text-2xl font-bold">5</p>
-                </div>
-                <div className="flex flex-col items-center p-3 bg-black/20 rounded-lg">
-                  <Users className="h-6 w-6 text-primary mb-2" />
-                  <p className="text-sm text-muted-foreground">Occupancy</p>
-                  <p className="text-2xl font-bold">82%</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card className="animate-scale-in [animation-delay:100ms]">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-xl">Total Area</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-4xl font-bold">468,000</p>
-              <p className="text-sm text-muted-foreground">Square Feet</p>
-            </CardContent>
-          </Card>
-          
-          <Card className="animate-scale-in [animation-delay:200ms]">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-xl">Maintenance</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-4xl font-bold">12</p>
-                  <p className="text-sm text-muted-foreground">Scheduled Tasks</p>
-                </div>
-                <div className="p-3 bg-yellow-400/20 rounded-full">
-                  <Clock className="h-6 w-6 text-yellow-400" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <h2 className="text-xl font-bold mb-4 mt-8 animate-fade-in">All Properties</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {properties.map((property, index) => (
-            <Card key={property.id} className="overflow-hidden hover-scale animate-fade-in" style={{animationDelay: `${index * 100}ms`}}>
-              <div className="h-40 overflow-hidden">
-                <img 
-                  src={property.image} 
-                  alt={property.name}
-                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-                />
-              </div>
-              <CardHeader className="pb-2">
-                <CardTitle className="flex justify-between items-start">
-                  <span>{property.name}</span>
-                </CardTitle>
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <MapPin className="h-3 w-3 mr-1" />
-                  {property.location}
-                </div>
+      <DashboardHeader />
+      <div className="flex-1 p-6 space-y-6 overflow-auto">
+        <h2 className="text-2xl font-bold mb-6 animate-fade-in">Property Management</h2>
+        
+        <Tabs defaultValue="properties" className="w-full">
+          <TabsList className="mb-6">
+            <TabsTrigger value="properties">Properties</TabsTrigger>
+            <TabsTrigger value="maintenance">Maintenance</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          </TabsList>
+          <TabsContent value="properties" className="space-y-6 animate-fade-in">
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Mall Properties Overview</CardTitle>
+                <CardDescription>Manage and view all shopping mall properties in your portfolio</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <p className="text-sm text-muted-foreground">Tenants</p>
-                    <p className="font-medium">{property.tenants}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Area</p>
-                    <p className="font-medium">{property.area}</p>
-                  </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                  <Card className="bg-secondary/50 p-4">
+                    <div className="flex flex-col items-center justify-center text-center">
+                      <h3 className="text-4xl font-bold text-primary">5</h3>
+                      <p className="text-sm text-muted-foreground">Total Properties</p>
+                    </div>
+                  </Card>
+                  <Card className="bg-secondary/50 p-4">
+                    <div className="flex flex-col items-center justify-center text-center">
+                      <h3 className="text-4xl font-bold text-primary">6.43M</h3>
+                      <p className="text-sm text-muted-foreground">Total Area (sq ft)</p>
+                    </div>
+                  </Card>
+                  <Card className="bg-secondary/50 p-4">
+                    <div className="flex flex-col items-center justify-center text-center">
+                      <h3 className="text-4xl font-bold text-green-500">93.4%</h3>
+                      <p className="text-sm text-muted-foreground">Avg Occupancy</p>
+                    </div>
+                  </Card>
+                  <Card className="bg-secondary/50 p-4">
+                    <div className="flex flex-col items-center justify-center text-center">
+                      <h3 className="text-4xl font-bold text-amber-500">48</h3>
+                      <p className="text-sm text-muted-foreground">Maintenance Issues</p>
+                    </div>
+                  </Card>
                 </div>
-                <div className="flex justify-between items-center pt-2 border-t border-border">
-                  <div className="text-sm text-muted-foreground">
-                    Last maintenance: {property.lastMaintenance}
-                  </div>
-                  <Button variant="ghost" size="icon">
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
+                
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-lg font-semibold">Property List</h3>
+                  <Button>Add New Property</Button>
+                </div>
+                
+                <PropertiesList />
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="maintenance" className="space-y-6 animate-fade-in">
+            <Card>
+              <CardHeader>
+                <CardTitle>Maintenance Requests</CardTitle>
+                <CardDescription>Track and manage maintenance issues across all properties</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <Card className="bg-red-900/20 p-4">
+                    <div className="flex flex-col items-center justify-center text-center">
+                      <h3 className="text-4xl font-bold text-red-500">12</h3>
+                      <p className="text-sm text-muted-foreground">Urgent Issues</p>
+                    </div>
+                  </Card>
+                  <Card className="bg-amber-900/20 p-4">
+                    <div className="flex flex-col items-center justify-center text-center">
+                      <h3 className="text-4xl font-bold text-amber-500">24</h3>
+                      <p className="text-sm text-muted-foreground">In Progress</p>
+                    </div>
+                  </Card>
+                  <Card className="bg-green-900/20 p-4">
+                    <div className="flex flex-col items-center justify-center text-center">
+                      <h3 className="text-4xl font-bold text-green-500">118</h3>
+                      <p className="text-sm text-muted-foreground">Completed (30 days)</p>
+                    </div>
+                  </Card>
+                </div>
+                
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-lg font-semibold">Recent Maintenance Requests</h3>
+                  <Button>Create New Request</Button>
+                </div>
+                
+                <MaintenanceList />
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="analytics" className="animate-fade-in">
+            <Card>
+              <CardHeader>
+                <CardTitle>Property Analytics</CardTitle>
+                <CardDescription>Performance metrics and analysis for all properties</CardDescription>
+              </CardHeader>
+              <CardContent className="h-[400px] flex items-center justify-center">
+                <div className="text-center space-y-4">
+                  <Building className="h-16 w-16 mx-auto text-primary/50" />
+                  <h3 className="text-xl font-medium">Analytics Dashboard</h3>
+                  <p className="text-muted-foreground max-w-md mx-auto">
+                    Detailed property performance data, comparative metrics, and ROI analysis would be displayed here.
+                  </p>
                 </div>
               </CardContent>
             </Card>
-          ))}
-        </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
